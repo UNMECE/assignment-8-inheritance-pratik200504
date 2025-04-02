@@ -85,7 +85,7 @@ public:
 			B=0;
 	}
 	MagneticField operator+(const MagneticField &other) const{
-			return MagneticField(value[0]+other.value[0], value[1]+other.value[1], value[2]+other.value[2]);
+			return MagneticField(value[0]+other.value[0],value[1] +other.value[1], value[2]+other.value[2]);
 		}
 
 		friend ostream& operator <<(ostream &out, const MagneticField &m)
