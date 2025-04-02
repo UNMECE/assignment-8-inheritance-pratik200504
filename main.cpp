@@ -61,7 +61,7 @@ public:
 
 	friend ostream& operator<<(ostream &out, const ElectricField &e)
 	{
-		out <<"Electric Field Components: ("<<e.value[0]<<", " <<e.value[2] <<")";
+		out <<"Electric Field Components: ("<<e.value[0]<<", " <<e.value[1] <<", " <<e.value[2]<<")";
 		return out;
 	}
 };
@@ -85,12 +85,12 @@ public:
 			B=0;
 	}
 	MagneticField operator+(const MagneticField &other) const{
-			return MagneticField(value[0]+other.value[0], +other.value[1], value[2]+other.value[2]);
+			return MagneticField(value[0]+other.value[0], value[1]+other.value[1], value[2]+other.value[2]);
 		}
 
 		friend ostream& operator <<(ostream &out, const MagneticField &m)
 		{
-			out<<"Magnetic Field";
+			out<<"Magnetic Field Components:(" <<m.value[0]<<", " <<m.value[1]<<"," <<m.value[2]<<")";
 			return out;
 		}
 	};
