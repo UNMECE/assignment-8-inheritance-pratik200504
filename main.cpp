@@ -19,10 +19,18 @@ public:
 	{
 		value= new double[3]{x, y, z};
 	}
-	value ~Field()
+	//constructor
+	Field(const Field &other)
+	{
+		value= new double[3]{other.value[0], other.value[1], other.value[2]};
+	}
+
+	//fixed Destructor Syntax
+	virtual ~Field()
 	{
 		delete[] value;
 	}
+	
 	void printMagnitude() const{
 		cout<<"Components:("<<value[0]<<", "<<value[1] <<", " <<value[2]<<")\n";
 	}
@@ -36,6 +44,8 @@ public:
 	ElectricField(): Field(), E(0) {}
 	ElectricField(double x, double y, double z): Field(x, y, z), E(0) {}
 
+  //Added Copy Constructor
+	ElectricField(const ElectricField &other) : Field(other), E(other.E){}
 
 	void calculateElectricField(double Q, double r)
 	{
@@ -45,34 +55,37 @@ public:
 			E=0;
 	}
 
-	ElecticField operator+(const ElectricField &other) const{
-		return ElectricField();
+	ElectricField operator+(const ElectricField &other) const{
+		return ElectricField(value[0]+other.value[0], value[1] +other.value[1], value[2]+other.value[2]);
 	}
 
 	friend ostream& operator<<(ostream &out, const ElectricField &e)
 	{
-		out <<"Electric Field";
+		out <<"Electric Field Components: ("<<e.value[0]<<", " <<e.value[2] <<")";
 		return out;
-	};
+	}
+};
 
-	class MagneticField: public Field{
-	private:
-		double B;
+class MagneticField: public Field{
+private:
+	double B;
 
-	public:
-		MagneticField() : Field(), B(0) {}
-		MagneticField(double x, double y, double z): Field(x, y, z), B(0) {}
+public:
+	MagneticField() : Field(), B(0) {}
+	MagneticField(double x, double y, double z): Field(x, y, z), B(0) {}
 
-		void calculateMagneticField(double I, double r)
-		{
-			if(r!=0)
-				B=(MU_0*I) / (2*M_PI *r);
-			else
-				B=0;
-		}
+//added copy constructor
+  MagneticField(const MagneticField &other) : Field(other), B(other.B) {}
 
-		MagneticField operator+(const MagneticField &other) const{
-			return MagneticField();
+	void calculateMagneticField(double I, double r)
+	{
+		if(r!=0)
+			B=(MU_0*I) / (2*M_PI *r);
+		else
+			B=0;
+	}
+	MagneticField operator+(const MagneticField &other) const{
+			return MagneticField(value[0]+other.value[0], +other.value[1], value[2]+other.value[2]);
 		}
 
 		friend ostream& operator <<(ostream &out, const MagneticField &m)
